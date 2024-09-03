@@ -100,8 +100,8 @@
     <Compile Include="ConstantsEnums.cs" />
     <Compile Include="GhostScript64.cs" />
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="ProcessHelper.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Program_2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
