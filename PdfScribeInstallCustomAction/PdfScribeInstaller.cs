@@ -38,10 +38,10 @@ namespace PdfScribeInstallCustomAction
         private readonly String logEventSourceNameDefault = "PdfScribeCore";
 
         const string ENVIRONMENT_64 = "Windows x64";
-        const string PRINTERNAME = "PDF Scribe";
-        const string DRIVERNAME = "PDF Scribe Virtual Printer";
-        const string HARDWAREID = "PDFScribe_Driver0101";
-        const string PORTMONITOR = "PDFSCRIBE";
+        const string PRINTERNAME = "Aivika Printer";
+        const string DRIVERNAME = "Aivika Virtual Printer";
+        const string HARDWAREID = "Aivika_Driver0101";
+        const string PORTMONITOR = "Aivika";
         const string MONITORDLL = "redmon64pdfscribe.dll";
         const string PORTNAME = "PSCRIBE:";
         const string PRINTPROCESOR = "winprint";
@@ -958,10 +958,6 @@ namespace PdfScribeInstallCustomAction
         }
 
         #endregion
-
-
-
-
 
         #region Configuration and Registry changes
 
