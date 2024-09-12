@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -44,15 +43,6 @@ namespace PdfScribe
         private static string _printFolder;
         private static Dispatcher _dispatcher;
 
-        public delegate void PrintStarted(object sender);
-
-        public static event PrintStarted PrintStartedEvent;
-
-        public static void Print()
-        {
-            PrintStartedEvent?.Invoke(null);
-        }
-
         [STAThread]
         static void Main(string[] args)
         {
@@ -60,21 +50,12 @@ namespace PdfScribe
             {
                 Directory.CreateDirectory(Constants.PrintSpoolFolder);
             }
-            //PrintStartedEvent += PrintHelper_PrintStartedEvent;
             var guid = Guid.NewGuid().ToString("B").ToUpper();
             _printFolder = Path.Combine(Constants.PrintSpoolFolder, guid);
 
             Directory.CreateDirectory(_printFolder);
 
             _fileName = Path.Combine(_printFolder, $"Aivika Capture Document {guid}.pdf");
-            //Task.Run(Print);
-            GetPrintedFile(_fileName);
-            PrintJobDone();
-        }
-
-        private static void PrintHelper_PrintStartedEvent(object sender)
-        {
-            //Printing = true;
             GetPrintedFile(_fileName);
             PrintJobDone();
         }
@@ -83,8 +64,6 @@ namespace PdfScribe
         {
             try
             {
-                //RunOnMainThread(() => TopTextBlock.Text = "Print completed.");
-                //Printing = false;
                 if (!File.Exists(PrinterDriver.ShellExe))
                 {
                     System.Windows.Forms.MessageBox.Show("Unable to locate a required Aivika Capture component.",
@@ -98,13 +77,9 @@ namespace PdfScribe
                 {
                     Process.Start(PrinterDriver.ShellExe, $"-u \"{_fileName}\" -d");
                 }
-
-                //RunOnMainThread(() => System.Windows.Application.Current.Shutdown());
-
             }
             catch (Exception ex)
             {
-                //Logger.Error(ex.Message);
                 DoCleanup();
                 System.Windows.Forms.MessageBox.Show(ex.Message,
                             "Aivika Printer",
@@ -114,30 +89,6 @@ namespace PdfScribe
                             System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
             }
         }
-
-        private static void RunOnMainThread(Action action)
-        {
-            void ThreadStart1()
-            {
-                if (action != null) _dispatcher.BeginInvoke(action);
-            }
-
-            var t2 = new Thread(ThreadStart1);
-            t2.Start();
-
-        }
-
-        //public void Dispose()
-        //{
-        //}
-
-        //public static void CancelPrintJob()
-        //{
-        //    if (File.Exists(_fileName))
-        //    {
-        //        File.Delete(_fileName);
-        //    }
-        //}
 
         private static void DoCleanup()
         {
