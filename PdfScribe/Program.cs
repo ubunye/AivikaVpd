@@ -5,12 +5,15 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 
 namespace PdfScribe
 {
-    public partial class Program
+    public class Program
     {
         #region Message constants
         const string ErrorDialogCaption = "Aivika Printer"; // Error taskdialog caption text
@@ -37,8 +40,129 @@ namespace PdfScribe
 
         private static readonly TraceSource LogEventSource = new TraceSource(TraceSourceName);
 
+        private static string _fileName;
+        private static string _printFolder;
+        private static Dispatcher _dispatcher;
+
+        public delegate void PrintStarted(object sender);
+
+        public static event PrintStarted PrintStartedEvent;
+
+        public static void Print()
+        {
+            PrintStartedEvent?.Invoke(null);
+        }
+
         [STAThread]
         static void Main(string[] args)
+        {
+            if (!Directory.Exists(Constants.PrintSpoolFolder))
+            {
+                Directory.CreateDirectory(Constants.PrintSpoolFolder);
+            }
+            //PrintStartedEvent += PrintHelper_PrintStartedEvent;
+            var guid = Guid.NewGuid().ToString("B").ToUpper();
+            _printFolder = Path.Combine(Constants.PrintSpoolFolder, guid);
+
+            Directory.CreateDirectory(_printFolder);
+
+            _fileName = Path.Combine(_printFolder, $"Aivika Capture Document {guid}.pdf");
+            //Task.Run(Print);
+            GetPrintedFile(_fileName);
+            PrintJobDone();
+        }
+
+        private static void PrintHelper_PrintStartedEvent(object sender)
+        {
+            //Printing = true;
+            GetPrintedFile(_fileName);
+            PrintJobDone();
+        }
+
+        private static void PrintJobDone()
+        {
+            try
+            {
+                //RunOnMainThread(() => TopTextBlock.Text = "Print completed.");
+                //Printing = false;
+                if (!File.Exists(PrinterDriver.ShellExe))
+                {
+                    System.Windows.Forms.MessageBox.Show("Unable to locate a required Aivika Capture component.",
+                            "Aivika Printer",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1,
+                            System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
+                }
+                else if (!string.IsNullOrWhiteSpace(_fileName))
+                {
+                    Process.Start(PrinterDriver.ShellExe, $"-u \"{_fileName}\" -d");
+                }
+
+                //RunOnMainThread(() => System.Windows.Application.Current.Shutdown());
+
+            }
+            catch (Exception ex)
+            {
+                //Logger.Error(ex.Message);
+                DoCleanup();
+                System.Windows.Forms.MessageBox.Show(ex.Message,
+                            "Aivika Printer",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1,
+                            System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
+            }
+        }
+
+        private static void RunOnMainThread(Action action)
+        {
+            void ThreadStart1()
+            {
+                if (action != null) _dispatcher.BeginInvoke(action);
+            }
+
+            var t2 = new Thread(ThreadStart1);
+            t2.Start();
+
+        }
+
+        //public void Dispose()
+        //{
+        //}
+
+        //public static void CancelPrintJob()
+        //{
+        //    if (File.Exists(_fileName))
+        //    {
+        //        File.Delete(_fileName);
+        //    }
+        //}
+
+        private static void DoCleanup()
+        {
+            try
+            {
+                if (!Directory.Exists(_printFolder))
+                    return;
+
+                var files = Directory.GetFiles(_printFolder);
+
+                foreach (var file in files)
+                {
+                    File.Delete(file);
+                }
+
+                Directory.Delete(_printFolder);
+            }
+            catch
+            {
+                // If this fails then there's nothing to be done.
+            }
+        }
+
+        [STAThread]
+        public static void GetPrintedFile(string fileName)
         {
             // Install the global exception handler
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Application_UnhandledException);
@@ -59,7 +183,7 @@ namespace PdfScribe
             }
 
             String standardInputFilename = Path.GetTempFileName();
-            String outputFilename = String.Empty;
+            String outputFilename = fileName;//String.Empty;
 
             try
             {
@@ -82,7 +206,7 @@ namespace PdfScribe
                     String[] ghostScriptArguments = { "-dBATCH", "-dNOPAUSE", "-dSAFER", "-dAutoRotatePages=/None",  "-sDEVICE=pdfwrite", $"-sOutputFile={outputFilename}", 
                         standardInputFilename, "-c", @"[/Creator(PdfScribe " + Assembly.GetExecutingAssembly().GetName().Version + " (PSCRIPT5)) /DOCINFO pdfmark", "-f"};
                     GhostScript64.CallAPI(ghostScriptArguments);
-                    DisplayPdf(outputFilename);
+                    //DisplayPdf(outputFilename);
                 }
             }
             catch (IOException ioEx)
@@ -166,7 +290,7 @@ namespace PdfScribe
         private static bool GetPdfOutputFilename(ref String outputFile)
         {
             bool filenameRetrieved = false;
-            outputFile = GetFreeRdpOutputFilename(_parentProcess);
+            //outputFile = GetFreeRdpOutputFilename(_parentProcess);
             if (!string.IsNullOrEmpty(outputFile))
             {
                 filenameRetrieved = true;
@@ -256,26 +380,21 @@ namespace PdfScribe
 
         }
 
-        private static string GetFreeRdpOutputFilename(Process spooler)
-        {
-            var filename = string.Empty;
-
-            // myrtille print jobs are prefixed by "FREERDPjob" and concatenate the wfreerdp process id and a timestamp, thus should be unique and secure
-            // the resulting pdf files are deleted once downloaded to the browser
-
-            if (spooler?.StartInfo.EnvironmentVariables == null
-                || string.IsNullOrEmpty(spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"])
-                || !spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"].StartsWith("FREERDPjob"))
-                return filename;
-
-            var systemTempPath = Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.Machine);
-            var pdfFile = string.Concat(spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"], ".pdf");
-
-            if (systemTempPath != null)
-                filename = Path.Combine(systemTempPath, pdfFile);
-
-            return filename;
-        }
+        //private static string GetFreeRdpOutputFilename(Process spooler)
+        //{
+        //    var filename = string.Empty;
+        //    // myrtille print jobs are prefixed by "FREERDPjob" and concatenate the wfreerdp process id and a timestamp, thus should be unique and secure
+        //    // the resulting pdf files are deleted once downloaded to the browser
+        //    if (spooler?.StartInfo.EnvironmentVariables == null
+        //        || string.IsNullOrEmpty(spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"])
+        //        || !spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"].StartsWith("FREERDPjob"))
+        //        return filename;
+        //    var systemTempPath = Environment.GetEnvironmentVariable("TEMP", EnvironmentVariableTarget.Machine);
+        //    var pdfFile = string.Concat(spooler.StartInfo.EnvironmentVariables["REDMON_DOCNAME"], ".pdf");
+        //    if (systemTempPath != null)
+        //        filename = Path.Combine(systemTempPath, pdfFile);
+        //    return filename;
+        //}
 
         private static String GetOutputFilename()
         {

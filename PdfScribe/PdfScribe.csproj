@@ -95,26 +95,40 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ApplicationIcon>Resources\AdobeIcon.ico</ApplicationIcon>
+    <ApplicationIcon>PrintCapture.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\PdfScribeSharedAssemblyInfo.cs">
       <Link>PdfScribeSharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="ConstantsEnums.cs" />
     <Compile Include="GhostScript64.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NativeMethods.cs" />
+    <Compile Include="PrinterDriver.cs" />
+    <Compile Include="PrintLocalizationManager.cs" />
     <Compile Include="ProcessHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -154,6 +168,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="PrintCapture.ico" />
+    <Resource Include="Graphics\Aivika.ico" />
+    <Resource Include="Graphics\Page.png" />
+    <Resource Include="Graphics\Print.png" />
+    <Resource Include="Graphics\PrintCapture.ico" />
+    <Resource Include="Graphics\Printer.png" />
+    <Resource Include="Graphics\PrinterBottom.png" />
     <None Include="Resources\AdobeIcon.ico" />
     <Content Include="..\Lib\gsdll64.dll">
       <Link>gsdll64.dll</Link>
@@ -172,6 +193,31 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf">
+      <Version>2024.1.408</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.Windows.Themes.Material.for.Wpf">
+      <Version>2024.1.408</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TelerikStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
