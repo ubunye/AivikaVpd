@@ -181,14 +181,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Telerik.Windows.Controls.Navigation.for.Wpf">
-      <Version>2024.1.408</Version>
-    </PackageReference>
-    <PackageReference Include="Telerik.Windows.Themes.Material.for.Wpf">
-      <Version>2024.1.408</Version>
-    </PackageReference>
+    <ProjectReference Include="..\PdfScribeInstallCustomAction\PdfScribeInstallCustomAction.csproj">
+      <Project>{e8679e1b-8c89-4201-97d5-7e43c5a486c9}</Project>
+      <Name>PdfScribeInstallCustomAction</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

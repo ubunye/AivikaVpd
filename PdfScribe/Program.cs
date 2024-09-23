@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -45,6 +44,54 @@ namespace PdfScribe
 
         [STAThread]
         static void Main(string[] args)
+        {
+            if (args.Length >= 1)
+            {
+                switch (args[0])
+                {
+                    //case "-s":
+                    //    ShowSetupWindow();
+                    //    base.OnStartup(e);
+                    //    break;
+                    case "-i":
+                        PerformTask(() =>
+                        {
+                            PrinterDriver.InstallPrinter();
+                        });
+                        break;
+                    case "-u":
+                        PerformTask(() =>
+                        {
+                            PrinterDriver.UnInstallPrinter();
+                        });
+                        break;
+                    default:
+                        RunTask();
+                        break;
+                }
+            }
+            else
+            {
+                RunTask();
+            }
+        }
+        private static void PerformTask(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                LogEventSource.TraceEvent(TraceEventType.Error,
+                                          (int)TraceEventType.Error,
+                                          ErrorDialogInstructionCouldNotWrite +
+                                          Environment.NewLine +
+                                          "Exception message: " + ex.Message);
+            }
+        }
+
+        private static void RunTask()
         {
             if (!Directory.Exists(Constants.PrintSpoolFolder))
             {

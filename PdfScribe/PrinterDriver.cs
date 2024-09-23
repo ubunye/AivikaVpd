@@ -1,9 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
+using System.IO;
+using PdfScribeInstallCustomAction;
 
 namespace PdfScribe
 {
@@ -49,6 +48,24 @@ namespace PdfScribe
                     return null;
                 }
             }
+        }
+
+        private static readonly string ExecutableSourceDirectory =
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        private static readonly PdfScribeInstaller PdfScribeInstaller = new PdfScribeInstaller();
+
+        private static readonly string OutputHandlerCommand =
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "PdfScribe.exe");
+
+        public static bool InstallPrinter()
+        {
+            return PdfScribeInstaller.InstallPdfScribePrinter(ExecutableSourceDirectory, OutputHandlerCommand, "");
+        }
+
+        public static bool UnInstallPrinter()
+        {
+            return PdfScribeInstaller.UninstallPdfScribePrinter();
         }
     }
 }
