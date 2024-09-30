@@ -42,7 +42,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Set output filename";
+            this.label1.Text = Properties.Resources.SetOutputFilename;
             // 
             // SetOutputFilename
             // 
@@ -58,7 +58,7 @@
             this.Name = "SetOutputFilename";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PDF Scribe";
+            this.Text = Properties.Resources.ProductCaption;
             this.ResumeLayout(false);
             this.PerformLayout();
 

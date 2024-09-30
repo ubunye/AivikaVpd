@@ -19,7 +19,7 @@ namespace PdfScribe.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -67,6 +67,214 @@ namespace PdfScribe.Properties {
             get {
                 object obj = ResourceManager.GetObject("AdobeIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create the output file..
+        /// </summary>
+        internal static string ErrorDialogInstructionCouldNotWrite {
+            get {
+                return ResourceManager.GetString("ErrorDialogInstructionCouldNotWrite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a PDF generation error..
+        /// </summary>
+        internal static string ErrorDialogInstructionPDFGeneration {
+            get {
+                return ResourceManager.GetString("ErrorDialogInstructionPDFGeneration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an internal error. Enable tracing for details..
+        /// </summary>
+        internal static string ErrorDialogInstructionUnexpectedError {
+            get {
+                return ResourceManager.GetString("ErrorDialogInstructionUnexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access denied - check permissions on output folder..
+        /// </summary>
+        internal static string ErrorDialogOutputFileAccessDenied {
+            get {
+                return ResourceManager.GetString("ErrorDialogOutputFileAccessDenied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output file path is not valid. Check the &quot;OutputFile&quot; setting in the config file..
+        /// </summary>
+        internal static string ErrorDialogOutputFilenameInvalid {
+            get {
+                return ResourceManager.GetString("ErrorDialogOutputFilenameInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output file path too long. Check the &quot;OutputFile&quot; setting in the config file..
+        /// </summary>
+        internal static string ErrorDialogOutputFilenameTooLong {
+            get {
+                return ResourceManager.GetString("ErrorDialogOutputFilenameTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This program is meant to be called by the spooler service.
+        /// </summary>
+        internal static string ErrorDialogSpoolService {
+            get {
+                return ResourceManager.GetString("ErrorDialogSpoolService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is being used by another process..
+        /// </summary>
+        internal static string ErrorDialogTextFileInUse {
+            get {
+                return ResourceManager.GetString("ErrorDialogTextFileInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ghostscript error code {0}..
+        /// </summary>
+        internal static string ErrorDialogTextGhostScriptConversion {
+            get {
+                return ResourceManager.GetString("ErrorDialogTextGhostScriptConversion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception message:.
+        /// </summary>
+        internal static string ErrorExceptionMsg {
+            get {
+                return ResourceManager.GetString("ErrorExceptionMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Insufficient privileges to either create or delete {0}.
+        /// </summary>
+        internal static string ErrorInsufficientPrivileges {
+            get {
+                return ResourceManager.GetString("ErrorInsufficientPrivileges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is in use..
+        /// </summary>
+        internal static string ErrorInUse {
+            get {
+                return ResourceManager.GetString("ErrorInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OutputFile setting contains % character..
+        /// </summary>
+        internal static string ErrorOutputFileContainInvalidCharacter {
+            get {
+                return ResourceManager.GetString("ErrorOutputFileContainInvalidCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to locate a required Aivika Capture component..
+        /// </summary>
+        internal static string ErrorUnableLocateAivika {
+            get {
+                return ResourceManager.GetString("ErrorUnableLocateAivika", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ghostscript conversion error.
+        /// </summary>
+        internal static string GhostScriptConvertError {
+            get {
+                return ResourceManager.GetString("GhostScriptConvertError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to minimize the process working set ({0}).
+        /// </summary>
+        internal static string MinimizeProcessWorkingSetError {
+            get {
+                return ResourceManager.GetString("MinimizeProcessWorkingSetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize process working set (current size: {0} bytes).
+        /// </summary>
+        internal static string MinimizeProcessWorkingSetMsg {
+            get {
+                return ResourceManager.GetString("MinimizeProcessWorkingSetMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon PrintCapture {
+            get {
+                object obj = ResourceManager.GetObject("PrintCapture", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aivika Printer.
+        /// </summary>
+        internal static string ProductCaption {
+            get {
+                return ResourceManager.GetString("ProductCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set output filename.
+        /// </summary>
+        internal static string SetOutputFilename {
+            get {
+                return ResourceManager.GetString("SetOutputFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to set the process working set ({0}).
+        /// </summary>
+        internal static string SetProcessWorkingSetError {
+            get {
+                return ResourceManager.GetString("SetProcessWorkingSetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set process working set (min size: {0} bytes, max size: {1} bytes).
+        /// </summary>
+        internal static string SetProcessWorkingSetMsg {
+            get {
+                return ResourceManager.GetString("SetProcessWorkingSetMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} could not be deleted..
+        /// </summary>
+        internal static string WarnFileNotDeleted {
+            get {
+                return ResourceManager.GetString("WarnFileNotDeleted", resourceCulture);
             }
         }
     }

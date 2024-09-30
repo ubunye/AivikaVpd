@@ -76,12 +76,11 @@ namespace PdfScribe
                 process.MinWorkingSet = (IntPtr)minSize;
                 process.MaxWorkingSet = (IntPtr)maxSize;
 
-                Trace.TraceInformation("Set process working set (min size: " + process.MinWorkingSet.ToString() +
-                                       " bytes, max size: " + process.MaxWorkingSet.ToString() + " bytes)");
+                Trace.TraceInformation(string.Format(Properties.Resources.SetProcessWorkingSetMsg, process.MinWorkingSet.ToString(), process.MaxWorkingSet.ToString()));
             }
             catch (Exception exc)
             {
-                Trace.TraceError("Failed to set the process working set ({0})", exc);
+                Trace.TraceError(Properties.Resources.SetProcessWorkingSetError, exc);
             }
         }
 
@@ -92,14 +91,13 @@ namespace PdfScribe
                 var process = Process.GetCurrentProcess();
                 process.MaxWorkingSet = process.MaxWorkingSet;
 
-                Trace.TraceInformation("Minimize process working set (current size: " +
-                                       process.WorkingSet64.ToString() + " bytes)");
+                Trace.TraceInformation(string.Format(Properties.Resources.MinimizeProcessWorkingSetMsg, process.WorkingSet64.ToString()));
 
                 process.Dispose();
             }
             catch (Exception exc)
             {
-                Trace.TraceError("Failed to minimize the process working set ({0})", exc);
+                Trace.TraceError(Properties.Resources.MinimizeProcessWorkingSetError, exc);
             }
         }
     }

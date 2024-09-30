@@ -35,7 +35,7 @@ namespace PdfScribeInstallCustomAction
 
         //private static readonly TraceSource logEventSource = new TraceSource("PdfScribeCore");
         private readonly TraceSource logEventSource;
-        private readonly String logEventSourceNameDefault = "PdfScribeCore";
+        private readonly String logEventSourceNameDefault = "AivikaVpdCore";
 
         const string ENVIRONMENT_64 = "Windows x64";
         const string PRINTERNAME = "Aivika Printer";
@@ -43,7 +43,7 @@ namespace PdfScribeInstallCustomAction
         const string HARDWAREID = "Aivika_Driver0101";
         const string PORTMONITOR = "Aivika";
         const string MONITORDLL = "redmon64pdfscribe.dll";
-        const string PORTNAME = "PSCRIBE:";
+        const string PORTNAME = "AivikaVPD:";
         const string PRINTPROCESOR = "winprint";
 
         const string DRIVERMANUFACTURER = "S T Chan";
@@ -68,28 +68,28 @@ namespace PdfScribeInstallCustomAction
 
         #region Error messages for Trace/Debug
 
-        const string FILENOTDELETED_INUSE = "{0} is being used by another process. File was not deleted.";
-        const string FILENOTDELETED_UNAUTHORIZED = "{0} is read-only, or its file permissions do not allow for deletion.";
+        private static readonly string FILENOTDELETED_INUSE = Properties.Resources.FileNotDeletedInUse;
+        private static readonly string FILENOTDELETED_UNAUTHORIZED = Properties.Resources.FileNotDeletedUnauthorized;
 
-        const string FILENOTCOPIED_PRINTERDRIVER = "Printer driver file was not copied. Exception message: {0}";
-        const string FILENOTCOPIED_ALREADYEXISTS = "Destination file {0} was not copied/created - it already exists.";
+        private static readonly string FILENOTCOPIED_PRINTERDRIVER = Properties.Resources.FileNotCopiedPrinterDriver;
+        private static readonly string FILENOTCOPIED_ALREADYEXISTS = Properties.Resources.FileNotCopiedAlreadyExists;
 
-        const string WIN32ERROR = "Win32 error code {0}.";
+        private static readonly string WIN32ERROR = Properties.Resources.Win32Error;
 
-        const string NATIVE_COULDNOTENABLE64REDIRECTION = "Could not enable 64-bit file system redirection.";
-        const string NATIVE_COULDNOTREVERT64REDIRECTION = "Could not revert 64-bit file system redirection.";
+        private static readonly string NATIVE_COULDNOTENABLE64REDIRECTION = Properties.Resources.NativeCouldNotEnable64Redirection;
+        private static readonly string NATIVE_COULDNOTREVERT64REDIRECTION = Properties.Resources.NativeCouldNotRevert64Redirection;
 
-        const string INSTALL_ROLLBACK_FAILURE_AT_FUNCTION = "Partial uninstallation failure. Function {0} returned false.";
+        private static readonly string INSTALL_ROLLBACK_FAILURE_AT_FUNCTION = Properties.Resources.InstallRollBackFailureAtFunction;
 
-        const string REGISTRYCONFIG_NOT_ADDED = "Could not add port configuration to registry. Exception message: {0}";
-        const string REGISTRYCONFIG_NOT_DELETED = "Could not delete port configuration from registry. Exception message: {0}";
+        private static readonly string REGISTRYCONFIG_NOT_ADDED = Properties.Resources.RegistryConfigNotAdded;
+        private static readonly string REGISTRYCONFIG_NOT_DELETED = Properties.Resources.RegistryConfigNotDeleted;
 
-        const String INFO_INSTALLPORTMONITOR_FAILED = "Port monitor installation failed.";
-        const String INFO_INSTALLCOPYDRIVER_FAILED = "Could not copy printer driver files.";
-        const String INFO_INSTALLPORT_FAILED = "Could not add redirected port.";
-        const String INFO_INSTALLPRINTERDRIVER_FAILED = "Printer driver installation failed.";
-        const String INFO_INSTALLPRINTER_FAILED = "Could not add printer.";
-        const String INFO_INSTALLCONFIGPORT_FAILED = "Port configuration failed.";
+        private static readonly String INFO_INSTALLPORTMONITOR_FAILED = Properties.Resources.InfoInstallPortMonitorFailed;
+        private static readonly String INFO_INSTALLCOPYDRIVER_FAILED = Properties.Resources.InfoInstallCopyDriverFailed;
+        private static readonly String INFO_INSTALLPORT_FAILED = Properties.Resources.InfoInstallPortFailed;
+        private static readonly String INFO_INSTALLPRINTERDRIVER_FAILED = Properties.Resources.InfoInstallPrinterDriverFailed;
+        private static readonly String INFO_INSTALLPRINTER_FAILED = Properties.Resources.InfoInstallPrinterFailed;
+        private static readonly String INFO_INSTALLCONFIGPORT_FAILED = Properties.Resources.InfoInstallConfigPortFailed;
 
         #endregion
 
@@ -104,7 +104,7 @@ namespace PdfScribeInstallCustomAction
         public PdfScribeInstaller()
         {
             this.logEventSource = new TraceSource(logEventSourceNameDefault);
-            this.logEventSource.Switch = new SourceSwitch("PdfScribeCoreAll");
+            this.logEventSource.Switch = new SourceSwitch("AivikaVpdCoreAll");
             this.logEventSource.Switch.Level = SourceLevels.All;
         }
         /*
@@ -123,7 +123,7 @@ namespace PdfScribeInstallCustomAction
             {
                 throw new ArgumentNullException("eventSourceName");
             }
-            this.logEventSource.Switch = new SourceSwitch("PdfScribeCoreSwitch");
+            this.logEventSource.Switch = new SourceSwitch("AivikaVpdCoreSwitch");
             this.logEventSource.Switch.Level = SourceLevels.All;
         }
         */
@@ -255,10 +255,15 @@ namespace PdfScribeInstallCustomAction
                     newMonitor.pEnvironment = ENVIRONMENT_64;
                     newMonitor.pDLLName = MONITORDLL;
                     if (!AddPortMonitor(newMonitor))
+                    {
                         logEventSource.TraceEvent(TraceEventType.Error,
                                                   (int)TraceEventType.Error,
-                                                  String.Format("Could not add port monitor {0}", PORTMONITOR) + Environment.NewLine +
+                                                  String.Format(Properties.Resources.PortMonitorAddFailed, PORTMONITOR) + Environment.NewLine +
                                                   String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                        //For Command Prompt install logging
+                        Console.WriteLine("VPD Error | " + String.Format(Properties.Resources.PortMonitorAddFailed, PORTMONITOR) + Environment.NewLine +
+                                                  String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                    }
                     else
                         monitorAdded = true;
                 }
@@ -268,7 +273,9 @@ namespace PdfScribeInstallCustomAction
                     // log it, and keep going
                     logEventSource.TraceEvent(TraceEventType.Warning,
                                               (int)TraceEventType.Warning,
-                                              String.Format("Port monitor {0} already installed.", PORTMONITOR));
+                                              String.Format(Properties.Resources.PortMonitorAlreadyInstalled, PORTMONITOR));
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Warning | " + String.Format(Properties.Resources.PortMonitorAlreadyInstalled, PORTMONITOR));
                     monitorAdded = true;
                 }
 
@@ -296,7 +303,11 @@ namespace PdfScribeInstallCustomAction
             IntPtr oldValue = IntPtr.Zero;
             if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                 if (!NativeMethods.Wow64DisableWow64FsRedirection(ref oldValue))
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not disable Wow64 file system redirection.");
+                {
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.Wow64DisableFailed);
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.Wow64DisableFailed);
+                }
             return oldValue;
         }
 
@@ -314,7 +325,9 @@ namespace PdfScribeInstallCustomAction
             {
                 if (!NativeMethods.Wow64RevertWow64FsRedirection(oldValue))
                 {
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not reenable Wow64 file system redirection.");
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.Wow64ReenableFailed);
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.Wow64ReenableFailed);
                 }
             }
         }
@@ -334,7 +347,9 @@ namespace PdfScribeInstallCustomAction
                 {
                     logEventSource.TraceEvent(TraceEventType.Warning,
                                               (int)TraceEventType.Warning,
-                                              "Could not remove port monitor dll.");
+                                              Properties.Resources.PortMonitorDllRemoveFailed);
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Warning | " + Properties.Resources.PortMonitorDllRemoveFailed);
                 }
             }
             return monitorRemoved;
@@ -368,17 +383,23 @@ namespace PdfScribeInstallCustomAction
                 logEventSource.TraceEvent(TraceEventType.Critical, 
                                           (int)TraceEventType.Critical, 
                                           NATIVE_COULDNOTENABLE64REDIRECTION + String.Format(WIN32ERROR, windows32Ex.NativeErrorCode.ToString()));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + NATIVE_COULDNOTENABLE64REDIRECTION + String.Format(WIN32ERROR, windows32Ex.NativeErrorCode.ToString()));
                 throw;
             }
             catch (IOException)
             {
                 // File still in use
-                logEventSource.TraceEvent(TraceEventType.Error, (int)TraceEventType.Error, String.Format(FILENOTDELETED_INUSE, monitorDllFullPathname));  
+                logEventSource.TraceEvent(TraceEventType.Error, (int)TraceEventType.Error, String.Format(FILENOTDELETED_INUSE, monitorDllFullPathname));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(FILENOTDELETED_INUSE, monitorDllFullPathname));
             }
             catch (UnauthorizedAccessException)
             {
                 // File is readonly, or file permissions do not allow delete
                 logEventSource.TraceEvent(TraceEventType.Error, (int)TraceEventType.Error, String.Format(FILENOTDELETED_INUSE, monitorDllFullPathname));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(FILENOTDELETED_INUSE, monitorDllFullPathname));
             }
             finally
             {
@@ -393,6 +414,8 @@ namespace PdfScribeInstallCustomAction
                     logEventSource.TraceEvent(TraceEventType.Critical, 
                                               (int)TraceEventType.Critical, 
                                               NATIVE_COULDNOTREVERT64REDIRECTION + String.Format(WIN32ERROR, windows32Ex.NativeErrorCode.ToString()));
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | " + NATIVE_COULDNOTREVERT64REDIRECTION + String.Format(WIN32ERROR, windows32Ex.NativeErrorCode.ToString()));
                     throw;
                 }
             }
@@ -461,14 +484,18 @@ namespace PdfScribeInstallCustomAction
                 }
                 else
                 {
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.PortMonitorRetrieveFailed);
                     // Failed to retrieve enumerated monitors
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not enumerate port monitors.");
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.PortMonitorRetrieveFailed);
                 }
 
             }
             else
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Call to EnumMonitors in winspool.drv succeeded with a zero size buffer - unexpected error.");
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.EnumerateMonitorUnexpectedError);
+                throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.EnumerateMonitorUnexpectedError);
             }
 
             return portMonitors;
@@ -488,7 +515,11 @@ namespace PdfScribeInstallCustomAction
                                                          driverDirectory,
                                                          1024,
                                                          ref dirSizeInBytes))
-                throw new DirectoryNotFoundException("Could not retrieve printer driver directory.");
+            {
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + Properties.Resources.PrinterDriverRetrieveFailed);
+                throw new DirectoryNotFoundException(Properties.Resources.PrinterDriverRetrieveFailed);
+            }
             return driverDirectory.ToString();
         }
 
@@ -519,74 +550,111 @@ namespace PdfScribeInstallCustomAction
             {
                 this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                (int)TraceEventType.Verbose,
-                                               "Port monitor successfully installed.");
+                                               Properties.Resources.PortMonitorSuccessInstalled);
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Info | " + Properties.Resources.PortMonitorSuccessInstalled);
                 undoInstallActions.Push(this.RemovePdfScribePortMonitor);
                 if (CopyPrinterDriverFiles(driverSourceDirectory, printerDriverFiles.Concat(printerDriverDependentFiles).ToArray()))
                 {
                     this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                    (int)TraceEventType.Verbose,
-                                                   "Printer drivers copied or already exist.");
+                                                   Properties.Resources.PrinterDriverExisted);
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Info | " + Properties.Resources.PrinterDriverExisted);
                     undoInstallActions.Push(this.RemovePdfScribePortMonitor);
                     if (AddPdfScribePort())
                     {
                         this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                        (int)TraceEventType.Verbose,
-                                                       "Redirection port added.");
+                                                       Properties.Resources.RedirectionPortAdded);
+                        //For Command Prompt install logging
+                        Console.WriteLine("VPD Info | " + Properties.Resources.RedirectionPortAdded);
                         undoInstallActions.Push(this.RemovePDFScribePrinterDriver);
                         if (InstallPdfScribePrinterDriver())
                         {
                             this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                            (int)TraceEventType.Verbose,
-                                                           "Printer driver installed.");
+                                                           Properties.Resources.PrinterDriverInstalled);
+                            //For Command Prompt install logging
+                            Console.WriteLine("VPD Info | " + Properties.Resources.PrinterDriverInstalled);
                             undoInstallActions.Push(this.DeletePdfScribePrinter);
                             if (AddPdfScribePrinter())
                             {
                                 this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                                (int)TraceEventType.Verbose,
-                                                               "Virtual printer installed.");
+                                                               Properties.Resources.VirtualPrinterInstalled);
+                                //For Command Prompt install logging
+                                Console.WriteLine("VPD Info | " + Properties.Resources.VirtualPrinterInstalled);
                                 undoInstallActions.Push(this.RemovePdfScribePortConfig);
                                 if (ConfigurePdfScribePort(outputHandlerCommand, outputHandlerArguments))
                                 {
                                     this.logEventSource.TraceEvent(TraceEventType.Verbose,
                                                                    (int)TraceEventType.Verbose,
-                                                                   "Printer configured.");
+                                                                   Properties.Resources.PrinterConfigured);
+                                    //For Command Prompt install logging
+                                    Console.WriteLine("VPD Info | " + Properties.Resources.PrinterConfigured);
                                     printerInstalled = true;
                                 }
                                 else
+                                {
                                     // Failed to configure port
                                     this.logEventSource.TraceEvent(TraceEventType.Error,
                                                                     (int)TraceEventType.Error,
                                                                     INFO_INSTALLCONFIGPORT_FAILED);
+                                    //For Command Prompt install logging
+                                    Console.WriteLine("VPD Error | " + INFO_INSTALLCONFIGPORT_FAILED);
+                                }
                             }
                             else
+                            {
                                 // Failed to install printer
                                 this.logEventSource.TraceEvent(TraceEventType.Error,
                                                                 (int)TraceEventType.Error,
                                                                 INFO_INSTALLPRINTER_FAILED);
+                                //For Command Prompt install logging
+                                Console.WriteLine("VPD Error | " + INFO_INSTALLPRINTER_FAILED);
+                            }
                         }
                         else
+                        {
                             // Failed to install printer driver
                             this.logEventSource.TraceEvent(TraceEventType.Error,
                                                             (int)TraceEventType.Error,
                                                             INFO_INSTALLPRINTERDRIVER_FAILED);
+                            //For Command Prompt install logging
+                            Console.WriteLine("VPD Error | " + INFO_INSTALLPRINTERDRIVER_FAILED);
+                        }
                     }
                     else
+                    {
                         // Failed to add printer port
                         this.logEventSource.TraceEvent(TraceEventType.Error,
                                                         (int)TraceEventType.Error,
                                                         INFO_INSTALLPORT_FAILED);
+                        //For Command Prompt install logging
+                        Console.WriteLine("VPD Error | " + INFO_INSTALLPORT_FAILED);
+                    }
                 }
                 else
+                {
                     //Failed to copy printer driver files
                     this.logEventSource.TraceEvent(TraceEventType.Error,
                                                     (int)TraceEventType.Error,
                                                     INFO_INSTALLCOPYDRIVER_FAILED);
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | " + INFO_INSTALLCOPYDRIVER_FAILED);
+                }
             }
             else
+            {
                 //Failed to add port monitor
                 this.logEventSource.TraceEvent(TraceEventType.Error,
                                                 (int)TraceEventType.Error,
                                                 INFO_INSTALLPORTMONITOR_FAILED);
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + INFO_INSTALLPORTMONITOR_FAILED);
+            }
+
             if (printerInstalled == false)
             {
                 // Printer installation failed -
@@ -601,6 +669,8 @@ namespace PdfScribeInstallCustomAction
                             this.logEventSource.TraceEvent(TraceEventType.Error,
                                                             (int)TraceEventType.Error,
                                                             String.Format(INSTALL_ROLLBACK_FAILURE_AT_FUNCTION, undoAction.Method.Name));
+                            //For Command Prompt install logging
+                            Console.WriteLine("VPD Error | " + String.Format(INSTALL_ROLLBACK_FAILURE_AT_FUNCTION, undoAction.Method.Name));
                         }
                     }
                     catch (Win32Exception win32Ex)
@@ -608,6 +678,9 @@ namespace PdfScribeInstallCustomAction
                         this.logEventSource.TraceEvent(TraceEventType.Error,
                                                         (int)TraceEventType.Error,
                                                         String.Format(INSTALL_ROLLBACK_FAILURE_AT_FUNCTION, undoAction.Method.Name) +
+                                                        String.Format(WIN32ERROR, win32Ex.ErrorCode.ToString()));
+                        //For Command Prompt install logging
+                        Console.WriteLine("VPD Error | " + String.Format(INSTALL_ROLLBACK_FAILURE_AT_FUNCTION, undoAction.Method.Name) +
                                                         String.Format(WIN32ERROR, win32Ex.ErrorCode.ToString()));
                     }
                 }
@@ -679,6 +752,8 @@ namespace PdfScribeInstallCustomAction
                         logEventSource.TraceEvent(TraceEventType.Verbose,
                                                   (int)TraceEventType.Verbose,
                                                   String.Format(FILENOTCOPIED_ALREADYEXISTS, fileDestinationPath));
+                        //For Command Prompt install logging
+                        Console.WriteLine("VPD Warning | " + String.Format(FILENOTCOPIED_ALREADYEXISTS, fileDestinationPath));
                         continue;
                     }
                 }
@@ -689,18 +764,24 @@ namespace PdfScribeInstallCustomAction
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
                                           String.Format(FILENOTCOPIED_PRINTERDRIVER, ioEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(FILENOTCOPIED_PRINTERDRIVER, ioEx.Message));
             }
             catch (UnauthorizedAccessException unauthorizedEx)
             {
                 logEventSource.TraceEvent(TraceEventType.Error,
                             (int)TraceEventType.Error,
                             String.Format(FILENOTCOPIED_PRINTERDRIVER, unauthorizedEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(FILENOTCOPIED_PRINTERDRIVER, unauthorizedEx.Message));
             }
             catch (NotSupportedException notSupportedEx)
             {
                 logEventSource.TraceEvent(TraceEventType.Error,
                     (int)TraceEventType.Error,
                     String.Format(FILENOTCOPIED_PRINTERDRIVER, notSupportedEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(FILENOTCOPIED_PRINTERDRIVER, notSupportedEx.Message));
             }
 
 
@@ -770,13 +851,17 @@ namespace PdfScribeInstallCustomAction
                 }
                 else
                 {
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.PrinterDriversEnumerateFailed);
                     // Failed to enumerate printer drivers
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not enumerate printer drivers.");
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.PrinterDriversEnumerateFailed);
                 }
             }
             else
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error(), "Call to EnumPrinterDrivers in winspool.drv succeeded with a zero size buffer - unexpected error.");
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | Last Win32 Error:" + Marshal.GetLastWin32Error() + " | " + Properties.Resources.EnumeratePrinterDriverUnexpectedError);
+                throw new Win32Exception(Marshal.GetLastWin32Error(), Properties.Resources.EnumeratePrinterDriverUnexpectedError);
             }
 
             return installedPrinterDrivers;
@@ -845,7 +930,10 @@ namespace PdfScribeInstallCustomAction
                 //throw new Win32Exception(Marshal.GetLastWin32Error(), "Could not add printer PDF Scribe printer driver.");
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
-                                          "Could not add PDF Scribe printer driver. " +
+                                          Properties.Resources.PrinterDriverAddFailed + " " +
+                                          String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + Properties.Resources.PrinterDriverAddFailed + " " +
                                           String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
             }
             return printerDriverInstalled;
@@ -863,7 +951,10 @@ namespace PdfScribeInstallCustomAction
             {
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
-                                          "Could not remove PDF Scribe printer driver. " +
+                                          Properties.Resources.PrinterDriverRemoveFailed + " " +
+                                          String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + Properties.Resources.PrinterDriverRemoveFailed + " " +
                                           String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
             }
             return driverRemoved;
@@ -894,7 +985,10 @@ namespace PdfScribeInstallCustomAction
             {
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
-                                          "Could not add PDF Scribe virtual printer. " + 
+                                          Properties.Resources.VirtualPrinterAddFailed + " " + 
+                                          String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + Properties.Resources.VirtualPrinterAddFailed + " " +
                                           String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
             }
             return printerAdded;
@@ -921,7 +1015,10 @@ namespace PdfScribeInstallCustomAction
                 {
                     logEventSource.TraceEvent(TraceEventType.Error,
                                               (int)TraceEventType.Error,
-                                              "Could not delete PDF Scribe virtual printer. "  +
+                                              Properties.Resources.VirtualPrinterDeleteFailed + " "  +
+                                              String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
+                    //For Command Prompt install logging
+                    Console.WriteLine("VPD Error | " + Properties.Resources.VirtualPrinterDeleteFailed + " " +
                                               String.Format(WIN32ERROR, Marshal.GetLastWin32Error().ToString()));
                 }
             }
@@ -987,7 +1084,7 @@ namespace PdfScribeInstallCustomAction
                 portConfiguration = Registry.LocalMachine.CreateSubKey("SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors\\" + 
                                                                                 PORTMONITOR +
                                                                                 "\\Ports\\" + PORTNAME);
-                portConfiguration.SetValue("Description", "PDF Scribe", RegistryValueKind.String);
+                portConfiguration.SetValue("Description", "Aivika Virtual Printer", RegistryValueKind.String);
                 portConfiguration.SetValue("Command", commandValue, RegistryValueKind.String);
                 portConfiguration.SetValue("Arguments", argumentsValue, RegistryValueKind.String);
                 portConfiguration.SetValue("Printer", PRINTERNAME, RegistryValueKind.String);
@@ -1007,12 +1104,16 @@ namespace PdfScribeInstallCustomAction
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
                                           String.Format(REGISTRYCONFIG_NOT_ADDED, unauthorizedEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(REGISTRYCONFIG_NOT_ADDED, unauthorizedEx.Message));
             }
             catch (SecurityException securityEx)
             {
                 logEventSource.TraceEvent(TraceEventType.Error,
                             (int)TraceEventType.Error,
                             String.Format(REGISTRYCONFIG_NOT_ADDED, securityEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(REGISTRYCONFIG_NOT_ADDED, securityEx.Message));
             }
 
             return registryChangesMade;
@@ -1033,6 +1134,8 @@ namespace PdfScribeInstallCustomAction
                 logEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
                                           String.Format(REGISTRYCONFIG_NOT_DELETED, unauthorizedEx.Message));
+                //For Command Prompt install logging
+                Console.WriteLine("VPD Error | " + String.Format(REGISTRYCONFIG_NOT_DELETED, unauthorizedEx.Message));
             }
 
             return registryEntriesRemoved;

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace PdfScribe
 {
@@ -35,7 +32,7 @@ namespace PdfScribe
 
                     if (result < 0)
                     {
-                        throw new ExternalException("Ghostscript conversion error", result);
+                        throw new ExternalException(Properties.Resources.GhostScriptConvertError, result);
                     }
                 }
                 finally

@@ -14,24 +14,24 @@ namespace PdfScribe
     public class Program
     {
         #region Message constants
-        const string ErrorDialogCaption = "Aivika Printer"; // Error taskdialog caption text
+        private static readonly string ErrorDialogCaption = Properties.Resources.ProductCaption; // Error taskdialog caption text
 
-        const string ErrorDialogInstructionPDFGeneration = "There was a PDF generation error.";
-        const string ErrorDialogInstructionCouldNotWrite = "Could not create the output file.";
-        const string ErrorDialogInstructionUnexpectedError = "There was an internal error. Enable tracing for details.";
+        private static readonly string ErrorDialogInstructionPDFGeneration = Properties.Resources.ErrorDialogInstructionPDFGeneration;
+        private static readonly string ErrorDialogInstructionCouldNotWrite = Properties.Resources.ErrorDialogInstructionCouldNotWrite;
+        private static readonly string ErrorDialogInstructionUnexpectedError = Properties.Resources.ErrorDialogInstructionUnexpectedError;
 
-        const string ErrorDialogOutputFilenameInvalid = "Output file path is not valid. Check the \"OutputFile\" setting in the config file.";
-        const string ErrorDialogOutputFilenameTooLong = "Output file path too long. Check the \"OutputFile\" setting in the config file.";
-        const string ErrorDialogOutputFileAccessDenied = "Access denied - check permissions on output folder.";
-        const string ErrorDialogTextFileInUse = "{0} is being used by another process.";
-        const string ErrorDialogTextGhostScriptConversion = "Ghostscript error code {0}.";
+        private static readonly string ErrorDialogOutputFilenameInvalid = Properties.Resources.ErrorDialogOutputFilenameInvalid;
+        private static readonly string ErrorDialogOutputFilenameTooLong = Properties.Resources.ErrorDialogOutputFilenameTooLong;
+        private static readonly string ErrorDialogOutputFileAccessDenied = Properties.Resources.ErrorDialogOutputFileAccessDenied;
+        private static readonly string ErrorDialogTextFileInUse = Properties.Resources.ErrorDialogTextFileInUse;
+        private static readonly string ErrorDialogTextGhostScriptConversion = Properties.Resources.ErrorDialogTextGhostScriptConversion;
 
-        const string WarnFileNotDeleted = "{0} could not be deleted.";
-        const string ErrorDialogSpoolService = "This program is meant to be called by the spooler service";
+        private static readonly string WarnFileNotDeleted = Properties.Resources.WarnFileNotDeleted;
+        private static readonly string ErrorDialogSpoolService = Properties.Resources.ErrorDialogSpoolService;
         #endregion
 
         #region Other constants
-        const string TraceSourceName = "PdfScribe";
+        const string TraceSourceName = "AivikaVpd";
 
         static Process _parentProcess;
         #endregion
@@ -85,9 +85,9 @@ namespace PdfScribe
             {
                 LogEventSource.TraceEvent(TraceEventType.Error,
                                           (int)TraceEventType.Error,
-                                          ErrorDialogInstructionCouldNotWrite +
+                                          ErrorDialogInstructionUnexpectedError +
                                           Environment.NewLine +
-                                          "Exception message: " + ex.Message);
+                                          Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
             }
         }
 
@@ -113,12 +113,12 @@ namespace PdfScribe
             {
                 if (!File.Exists(PrinterDriver.ShellExe))
                 {
-                    System.Windows.Forms.MessageBox.Show("Unable to locate a required Aivika Capture component.",
-                            "Aivika Printer",
+                    MessageBox.Show(Properties.Resources.ErrorUnableLocateAivika,
+                            ErrorDialogCaption,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error,
                             MessageBoxDefaultButton.Button1,
-                            System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
+                            MessageBoxOptions.DefaultDesktopOnly);
                 }
                 else if (!string.IsNullOrWhiteSpace(_fileName))
                 {
@@ -128,12 +128,12 @@ namespace PdfScribe
             catch (Exception ex)
             {
                 DoCleanup();
-                System.Windows.Forms.MessageBox.Show(ex.Message,
-                            "Aivika Printer",
+                MessageBox.Show(ex.Message,
+                            ErrorDialogCaption,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error,
                             MessageBoxDefaultButton.Button1,
-                            System.Windows.Forms.MessageBoxOptions.DefaultDesktopOnly);
+                            MessageBoxOptions.DefaultDesktopOnly);
             }
         }
 
@@ -202,7 +202,7 @@ namespace PdfScribe
                     // Only set absolute minimum parameters, let the postscript input
                     // dictate as much as possible
                     String[] ghostScriptArguments = { "-dBATCH", "-dNOPAUSE", "-dSAFER", "-dAutoRotatePages=/None",  "-sDEVICE=pdfwrite", $"-sOutputFile={outputFilename}", 
-                        standardInputFilename, "-c", @"[/Creator(PdfScribe " + Assembly.GetExecutingAssembly().GetName().Version + " (PSCRIPT5)) /DOCINFO pdfmark", "-f"};
+                        standardInputFilename, "-c", @"[/Creator(AivikaVpd " + Assembly.GetExecutingAssembly().GetName().Version + " (PSCRIPT5)) /DOCINFO pdfmark", "-f"};
                     GhostScript64.CallAPI(ghostScriptArguments);
                     //DisplayPdf(outputFilename);
                 }
@@ -215,10 +215,10 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           ErrorDialogInstructionCouldNotWrite +
                                           Environment.NewLine +
-                                          "Exception message: " + ioEx.Message);
+                                          Properties.Resources.ErrorExceptionMsg + " " + ioEx.Message);
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionCouldNotWrite + Environment.NewLine +
-                                    String.Format("{0} is in use.", outputFilename));
+                                    String.Format(Properties.Resources.ErrorInUse, outputFilename));
             }
             catch (UnauthorizedAccessException unauthorizedEx)
             {
@@ -230,10 +230,10 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           ErrorDialogInstructionCouldNotWrite +
                                           Environment.NewLine +
-                                          "Exception message: " + unauthorizedEx.Message);
+                                          Properties.Resources.ErrorExceptionMsg + " " + unauthorizedEx.Message);
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionCouldNotWrite + Environment.NewLine +
-                                    String.Format("Insufficient privileges to either create or delete {0}", outputFilename));
+                                    String.Format(Properties.Resources.ErrorInsufficientPrivileges, outputFilename));
 
 
             }
@@ -244,7 +244,7 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           String.Format(ErrorDialogTextGhostScriptConversion, ghostscriptEx.ErrorCode.ToString()) +
                                           Environment.NewLine +
-                                          "Exception message: " + ghostscriptEx.Message);
+                                          Properties.Resources.ErrorExceptionMsg + " " + ghostscriptEx.Message);
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionPDFGeneration + Environment.NewLine +
                                     String.Format(ErrorDialogTextGhostScriptConversion, ghostscriptEx.ErrorCode.ToString()));
@@ -312,7 +312,7 @@ namespace PdfScribe
                                 pdfFilenameDialog.CheckPathExists = true;
                                 pdfFilenameDialog.Filter = "pdf files (*.pdf)|*.pdf";
                                 pdfFilenameDialog.ShowHelp = false;
-                                pdfFilenameDialog.Title = "Aivika Printer - Set output filename";
+                                pdfFilenameDialog.Title = Properties.Resources.ProductCaption + " - " + Properties.Resources.SetOutputFilename;
                                 pdfFilenameDialog.ValidateNames = true;
                                 if (!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("REDMON_DOCNAME")))
                                 {
@@ -347,7 +347,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFilenameInvalid + Environment.NewLine +
-                                                     "Exception message: " + ex.Message);
+                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFilenameInvalid);
                         }
@@ -357,7 +357,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFilenameTooLong + Environment.NewLine +
-                                                     "Exception message: " + ex.Message);
+                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFilenameTooLong);
                         }
@@ -366,7 +366,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFileAccessDenied + Environment.NewLine +
-                                                     "Exception message: " + ex.Message);
+                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
                             // Can't write to target dir
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFileAccessDenied);
@@ -401,7 +401,7 @@ namespace PdfScribe
             // even though it's a legal Windows filename character,
             // it is a special character to Ghostscript
             if (outputFilename.Contains("%"))
-                throw new ArgumentException("OutputFile setting contains % character.");
+                throw new ArgumentException(Properties.Resources.ErrorOutputFileContainInvalidCharacter);
             return outputFilename;
         }
 

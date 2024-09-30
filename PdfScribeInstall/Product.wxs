@@ -6,8 +6,8 @@
 		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"
              Platform="x64"
              InstallPrivileges="elevated"
-             Description="PDF Scribe Virtual Printer"
-             Comments="PDF Scribe Virtual Printer $(var.ProductVersion) installation package"
+             Description="Aivika Virtual Printer"
+             Comments="Aivika Virtual Printer $(var.ProductVersion) installation package"
              Id="*" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."
@@ -15,10 +15,10 @@
                   AllowDowngrades="no" AllowSameVersionUpgrades="yes"/>
 		<MediaTemplate EmbedCab="yes"/>
 
-		<Icon Id="AdobeIcon.ico" SourceFile="..\Common\AdobeIcon.ico"/>
-		<Property Id="ARPPRODUCTICON" Value="AdobeIcon.ico" />
+		<Icon Id="PrintCapture.ico" SourceFile="..\Common\PrintCapture.ico"/>
+		<Property Id="ARPPRODUCTICON" Value="PrintCapture.ico" />
 
-		<Feature Id="ProductFeature" Title="PdfScribe" Level="1">
+		<Feature Id="ProductFeature" Title="AivikaVpd" Level="1">
 			<ComponentGroupRef Id="ProductComponents"  />
 		</Feature>
 
@@ -40,7 +40,7 @@
 		<CustomAction Id="SetCustomActionDataValues"
 					  Return="check"
 					  Property="InstallPrinter"
-					  Value="DriverSourceDirectory=[INSTALLFOLDER];OutputCommand=[INSTALLFOLDER]PdfScribe.exe;OutputCommandArguments=" />
+					  Value="DriverSourceDirectory=[INSTALLFOLDER];OutputCommand=[INSTALLFOLDER]AivikaVirtualPrinter.exe;OutputCommandArguments=" />
 
 		<CustomAction Id="InstallPrinter"
 					  Return="check"

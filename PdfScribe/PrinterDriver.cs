@@ -56,7 +56,7 @@ namespace PdfScribe
         private static readonly PdfScribeInstaller PdfScribeInstaller = new PdfScribeInstaller();
 
         private static readonly string OutputHandlerCommand =
-            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "PdfScribe.exe");
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty, "AivikaVirtualPrinter.exe");
 
         public static bool InstallPrinter()
         {

@@ -6,10 +6,11 @@
     <ProductVersion>3.7</ProductVersion>
     <ProjectGuid>{3c255536-a7f1-4913-9c7f-966dffee01bc}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>PdfScribeInstall</OutputName>
+    <OutputName>AivikaVpdInstall</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -87,7 +88,7 @@
 	</Target>
 	-->
   <Target Name="BeforeBuild">
-    <GetAssemblyIdentity AssemblyFiles="..\PdfScribe\bin\x64\$(Configuration)\PdfScribe.exe">
+    <GetAssemblyIdentity AssemblyFiles="..\PdfScribe\bin\x64\$(Configuration)\AivikaVirtualPrinter.exe">
       <Output TaskParameter="Assemblies" ItemName="AsmInfo" />
     </GetAssemblyIdentity>
     <CreateProperty Value="$(ProjectName)_%(AsmInfo.Version)">

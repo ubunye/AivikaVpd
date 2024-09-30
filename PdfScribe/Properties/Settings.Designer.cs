@@ -25,15 +25,6 @@ namespace PdfScribe.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("%UserProfile%\\PDFSCRIBE.PDF")]
-        public string OutputFile {
-            get {
-                return ((string)(this["OutputFile"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool OpenAfterCreating {
             get {
@@ -56,6 +47,15 @@ namespace PdfScribe.Properties {
         public bool StripNoRedistill {
             get {
                 return ((bool)(this["StripNoRedistill"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("%UserProfile%\\AIVIKAVPD.PDF")]
+        public string OutputFile {
+            get {
+                return ((string)(this["OutputFile"]));
             }
         }
     }

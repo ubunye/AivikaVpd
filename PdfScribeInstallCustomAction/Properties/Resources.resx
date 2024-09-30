@@ -117,77 +117,112 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AdobeIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AdobeIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EnumerateMonitorUnexpectedError" xml:space="preserve">
+    <value>Call to EnumMonitors in winspool.drv succeeded with a zero size buffer - unexpected error.</value>
   </data>
-  <data name="ErrorDialogInstructionCouldNotWrite" xml:space="preserve">
-    <value>Could not create the output file.</value>
+  <data name="EnumeratePrinterDriverUnexpectedError" xml:space="preserve">
+    <value>Call to EnumPrinterDrivers in winspool.drv succeeded with a zero size buffer - unexpected error.</value>
   </data>
-  <data name="ErrorDialogInstructionPDFGeneration" xml:space="preserve">
-    <value>There was a PDF generation error.</value>
+  <data name="FileNotCopiedAlreadyExists" xml:space="preserve">
+    <value>Destination file {0} was not copied/created - it already exists.</value>
   </data>
-  <data name="ErrorDialogInstructionUnexpectedError" xml:space="preserve">
-    <value>There was an internal error. Enable tracing for details.</value>
+  <data name="FileNotCopiedPrinterDriver" xml:space="preserve">
+    <value>Printer driver file was not copied. Exception message: {0}</value>
   </data>
-  <data name="ErrorDialogOutputFileAccessDenied" xml:space="preserve">
-    <value>Access denied - check permissions on output folder.</value>
+  <data name="FileNotDeletedInUse" xml:space="preserve">
+    <value>{0} is being used by another process. File was not deleted.</value>
   </data>
-  <data name="ErrorDialogOutputFilenameInvalid" xml:space="preserve">
-    <value>Output file path is not valid. Check the "OutputFile" setting in the config file.</value>
+  <data name="FileNotDeletedUnauthorized" xml:space="preserve">
+    <value>{0} is read-only, or its file permissions do not allow for deletion.</value>
   </data>
-  <data name="ErrorDialogOutputFilenameTooLong" xml:space="preserve">
-    <value>Output file path too long. Check the "OutputFile" setting in the config file.</value>
+  <data name="InfoInstallConfigPortFailed" xml:space="preserve">
+    <value>Port configuration failed.</value>
   </data>
-  <data name="ErrorDialogSpoolService" xml:space="preserve">
-    <value>This program is meant to be called by the spooler service</value>
+  <data name="InfoInstallCopyDriverFailed" xml:space="preserve">
+    <value>Could not copy printer driver files.</value>
   </data>
-  <data name="ErrorDialogTextFileInUse" xml:space="preserve">
-    <value>{0} is being used by another process.</value>
+  <data name="InfoInstallPortFailed" xml:space="preserve">
+    <value>Could not add redirected port.</value>
   </data>
-  <data name="ErrorDialogTextGhostScriptConversion" xml:space="preserve">
-    <value>Ghostscript error code {0}.</value>
+  <data name="InfoInstallPortMonitorFailed" xml:space="preserve">
+    <value>Port monitor installation failed.</value>
   </data>
-  <data name="ErrorExceptionMsg" xml:space="preserve">
-    <value>Exception message:</value>
+  <data name="InfoInstallPrinterDriverFailed" xml:space="preserve">
+    <value>Printer driver installation failed.</value>
   </data>
-  <data name="ErrorInsufficientPrivileges" xml:space="preserve">
-    <value>Insufficient privileges to either create or delete {0}</value>
+  <data name="InfoInstallPrinterFailed" xml:space="preserve">
+    <value>Could not add printer.</value>
   </data>
-  <data name="ErrorInUse" xml:space="preserve">
-    <value>{0} is in use.</value>
+  <data name="InstallRollBackFailureAtFunction" xml:space="preserve">
+    <value>Partial uninstallation failure. Function {0} returned false.</value>
   </data>
-  <data name="ErrorOutputFileContainInvalidCharacter" xml:space="preserve">
-    <value>OutputFile setting contains % character.</value>
+  <data name="NativeCouldNotEnable64Redirection" xml:space="preserve">
+    <value>Could not enable 64-bit file system redirection.</value>
   </data>
-  <data name="ErrorUnableLocateAivika" xml:space="preserve">
-    <value>Unable to locate a required Aivika Capture component.</value>
+  <data name="NativeCouldNotRevert64Redirection" xml:space="preserve">
+    <value>Could not revert 64-bit file system redirection.</value>
   </data>
-  <data name="GhostScriptConvertError" xml:space="preserve">
-    <value>Ghostscript conversion error</value>
+  <data name="PortMonitorAddFailed" xml:space="preserve">
+    <value>Could not add port monitor {0}</value>
   </data>
-  <data name="MinimizeProcessWorkingSetError" xml:space="preserve">
-    <value>Failed to minimize the process working set ({0})</value>
+  <data name="PortMonitorAlreadyInstalled" xml:space="preserve">
+    <value>Port monitor {0} already installed.</value>
   </data>
-  <data name="MinimizeProcessWorkingSetMsg" xml:space="preserve">
-    <value>Minimize process working set (current size: {0} bytes)</value>
+  <data name="PortMonitorDllRemoveFailed" xml:space="preserve">
+    <value>Could not remove port monitor dll.</value>
   </data>
-  <data name="PrintCapture" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PrintCapture.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PortMonitorRetrieveFailed" xml:space="preserve">
+    <value>Could not enumerate port monitors.</value>
   </data>
-  <data name="ProductCaption" xml:space="preserve">
-    <value>Aivika Printer</value>
+  <data name="PortMonitorSuccessInstalled" xml:space="preserve">
+    <value>Port monitor successfully installed.</value>
   </data>
-  <data name="SetOutputFilename" xml:space="preserve">
-    <value>Set output filename</value>
+  <data name="PrinterConfigured" xml:space="preserve">
+    <value>Printer configured.</value>
   </data>
-  <data name="SetProcessWorkingSetError" xml:space="preserve">
-    <value>Failed to set the process working set ({0})</value>
+  <data name="PrinterDriverAddFailed" xml:space="preserve">
+    <value>Could not add Aivika printer driver.</value>
   </data>
-  <data name="SetProcessWorkingSetMsg" xml:space="preserve">
-    <value>Set process working set (min size: {0} bytes, max size: {1} bytes)</value>
+  <data name="PrinterDriverExisted" xml:space="preserve">
+    <value>Printer drivers copied or already exist.</value>
   </data>
-  <data name="WarnFileNotDeleted" xml:space="preserve">
-    <value>{0} could not be deleted.</value>
+  <data name="PrinterDriverInstalled" xml:space="preserve">
+    <value>Printer driver installed.</value>
+  </data>
+  <data name="PrinterDriverRemoveFailed" xml:space="preserve">
+    <value>Could not remove Aivika printer driver.</value>
+  </data>
+  <data name="PrinterDriverRetrieveFailed" xml:space="preserve">
+    <value>Could not retrieve printer driver directory.</value>
+  </data>
+  <data name="PrinterDriversEnumerateFailed" xml:space="preserve">
+    <value>Could not enumerate printer drivers.</value>
+  </data>
+  <data name="RedirectionPortAdded" xml:space="preserve">
+    <value>Redirection port added.</value>
+  </data>
+  <data name="RegistryConfigNotAdded" xml:space="preserve">
+    <value>Could not add port configuration to registry. Exception message: {0}</value>
+  </data>
+  <data name="RegistryConfigNotDeleted" xml:space="preserve">
+    <value>Could not delete port configuration from registry. Exception message: {0}</value>
+  </data>
+  <data name="VirtualPrinterAddFailed" xml:space="preserve">
+    <value>Could not add Aivika virtual printer.</value>
+  </data>
+  <data name="VirtualPrinterDeleteFailed" xml:space="preserve">
+    <value>Could not delete Aivika virtual printer.</value>
+  </data>
+  <data name="VirtualPrinterInstalled" xml:space="preserve">
+    <value>Virtual printer installed.</value>
+  </data>
+  <data name="Win32Error" xml:space="preserve">
+    <value>Win32 error code {0}.</value>
+  </data>
+  <data name="Wow64DisableFailed" xml:space="preserve">
+    <value>Could not disable Wow64 file system redirection.</value>
+  </data>
+  <data name="Wow64ReenableFailed" xml:space="preserve">
+    <value>Could not reenable Wow64 file system redirection.</value>
   </data>
 </root>
