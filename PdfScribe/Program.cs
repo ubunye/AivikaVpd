@@ -87,7 +87,7 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           ErrorDialogInstructionUnexpectedError +
                                           Environment.NewLine +
-                                          Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
+                                          string.Format(Properties.Resources.ErrorExceptionMsg, ex.Message));
             }
         }
 
@@ -215,7 +215,7 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           ErrorDialogInstructionCouldNotWrite +
                                           Environment.NewLine +
-                                          Properties.Resources.ErrorExceptionMsg + " " + ioEx.Message);
+                                          string.Format(Properties.Resources.ErrorExceptionMsg, ioEx.Message));
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionCouldNotWrite + Environment.NewLine +
                                     String.Format(Properties.Resources.ErrorInUse, outputFilename));
@@ -230,7 +230,7 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           ErrorDialogInstructionCouldNotWrite +
                                           Environment.NewLine +
-                                          Properties.Resources.ErrorExceptionMsg + " " + unauthorizedEx.Message);
+                                          string.Format(Properties.Resources.ErrorExceptionMsg, unauthorizedEx.Message));
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionCouldNotWrite + Environment.NewLine +
                                     String.Format(Properties.Resources.ErrorInsufficientPrivileges, outputFilename));
@@ -244,7 +244,7 @@ namespace PdfScribe
                                           (int)TraceEventType.Error,
                                           String.Format(ErrorDialogTextGhostScriptConversion, ghostscriptEx.ErrorCode.ToString()) +
                                           Environment.NewLine +
-                                          Properties.Resources.ErrorExceptionMsg + " " + ghostscriptEx.Message);
+                                          string.Format(Properties.Resources.ErrorExceptionMsg, ghostscriptEx.Message));
                 DisplayErrorMessage(ErrorDialogCaption,
                                     ErrorDialogInstructionPDFGeneration + Environment.NewLine +
                                     String.Format(ErrorDialogTextGhostScriptConversion, ghostscriptEx.ErrorCode.ToString()));
@@ -347,7 +347,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFilenameInvalid + Environment.NewLine +
-                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
+                                                     string.Format(Properties.Resources.ErrorExceptionMsg, ex.Message));
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFilenameInvalid);
                         }
@@ -357,7 +357,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFilenameTooLong + Environment.NewLine +
-                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
+                                                     string.Format(Properties.Resources.ErrorExceptionMsg, ex.Message));
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFilenameTooLong);
                         }
@@ -366,7 +366,7 @@ namespace PdfScribe
                             LogEventSource.TraceEvent(TraceEventType.Error,
                                                      (int)TraceEventType.Error,
                                                      ErrorDialogOutputFileAccessDenied + Environment.NewLine +
-                                                     Properties.Resources.ErrorExceptionMsg + " " + ex.Message);
+                                                     string.Format(Properties.Resources.ErrorExceptionMsg, ex.Message));
                             // Can't write to target dir
                             DisplayErrorMessage(ErrorDialogCaption,
                                                 ErrorDialogOutputFileAccessDenied);

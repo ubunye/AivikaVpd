@@ -152,7 +152,7 @@ namespace PdfScribe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exception message:.
+        ///   Looks up a localized string similar to Exception message: {0}.
         /// </summary>
         internal static string ErrorExceptionMsg {
             get {

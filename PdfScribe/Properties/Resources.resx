@@ -149,7 +149,7 @@
     <value>Ghostscript error code {0}.</value>
   </data>
   <data name="ErrorExceptionMsg" xml:space="preserve">
-    <value>Exception message:</value>
+    <value>Exception message: {0}</value>
   </data>
   <data name="ErrorInsufficientPrivileges" xml:space="preserve">
     <value>Insufficient privileges to either create or delete {0}</value>
