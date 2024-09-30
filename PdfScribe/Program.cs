@@ -334,9 +334,9 @@ namespace PdfScribe
                         {
                             outputFile = GetOutputFilename();
                             // Test if we can write to the destination
-                            using (FileStream newOutputFile = File.Create(outputFile))
-                            { }
+                            FileStream newOutputFile = File.Create(outputFile);
                             File.Delete(outputFile);
+                            newOutputFile.Dispose();
                             filenameRetrieved = true;
                         }
                         catch (Exception ex) when (ex is ArgumentException ||

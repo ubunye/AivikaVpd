@@ -331,7 +331,7 @@ namespace PdfScribeInstallCustomAction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not add Aivika virtual printer..
+        ///   Looks up a localized string similar to Could not add Aivika Virtual Printer..
         /// </summary>
         internal static string VirtualPrinterAddFailed {
             get {
@@ -340,7 +340,7 @@ namespace PdfScribeInstallCustomAction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not delete Aivika virtual printer..
+        ///   Looks up a localized string similar to Could not delete Aivika Virtual Printer..
         /// </summary>
         internal static string VirtualPrinterDeleteFailed {
             get {
@@ -349,7 +349,7 @@ namespace PdfScribeInstallCustomAction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Virtual printer installed..
+        ///   Looks up a localized string similar to Aivika Virtual Printer installed..
         /// </summary>
         internal static string VirtualPrinterInstalled {
             get {

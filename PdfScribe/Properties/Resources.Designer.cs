@@ -234,7 +234,7 @@ namespace PdfScribe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Aivika Printer.
+        ///   Looks up a localized string similar to Aivika Virtual Printer.
         /// </summary>
         internal static string ProductCaption {
             get {
