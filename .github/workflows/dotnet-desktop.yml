@@ -42,16 +42,9 @@ jobs:
         GH_TOKEN: ${{ github.token }}
 
     # Upload to a release tag manually
-    - name: Upload Release Assets Manual Trigger
+    - name: upload release assets manual trigger
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag != '' }}
       working-directory: ./PdfScribeInstall/bin/x64/Release/en-us
       run:   gh release upload --clobber ${{ inputs.deploy_tag }} (get-item *.msi)
       env:
         GH_TOKEN: ${{ github.token }}
-
-    # Upload to the workflow if no tag is present in a manual triggered input
-    - uses: actions/upload-artifact@v4
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag == '' }}
-      with:
-        name: my-artifact
-        path: './PdfScribeInstall/bin/x64/Release/en-us/*.msi'
