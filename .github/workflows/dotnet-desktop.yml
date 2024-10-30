@@ -42,6 +42,7 @@ jobs:
       
     - name: upload release assets
       if: ${{ github.event_name != 'workflow_dispatch' }}
+      working-directory: ./PdfScribeInstall/bin/x64/Release/en-us
       run:   gh release upload --clobber ${{ github.event.release.tag_name }} AivikaVpd.msi
       env:
         GH_TOKEN: ${{ github.token }}
@@ -49,6 +50,7 @@ jobs:
     # Upload to a release tag manually
     - name: Upload Release Assets Manual Trigger
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag != '' }}
+      working-directory: ./PdfScribeInstall/bin/x64/Release/en-us
       run:   gh release upload --clobber ${{ inputs.deploy_tag }} AivikaVpd.msi
       env:
         GH_TOKEN: ${{ github.token }}
@@ -58,4 +60,4 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag == '' }}
       with:
         name: my-artifact
-        path: 'AivikaVpd.msi'
+        path: './PdfScribeInstall/bin/x64/Release/en-us/AivikaVpd.msi'
