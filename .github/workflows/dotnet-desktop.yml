@@ -1,6 +1,15 @@
 name: PdfScribeInstallerBuild
 
-on: workflow_dispatch
+on:
+  release:
+    types: [published]
+      
+  workflow_dispatch:
+    inputs:
+      deploy_tag:
+        required: true
+        type: string
+        default: ''
 
 jobs:
   Build-Installer:
@@ -25,8 +34,27 @@ jobs:
       run:  publishrelease.bat
       shell: cmd
       
-    - name: upload artifact
-      uses: actions/upload-artifact@v4.3.6
+    - name: goto build folder
+      run: |
+        cd PdfScribeInstall/bin/x64/Release/en-us;
+        dir;
+      
+    - name: upload release assets
+      if: ${{ github.event_name != 'workflow_dispatch' }}
+      run:   gh release upload --clobber ${{ github.event.release.tag_name }} *.msi
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+    # Upload to a release tag manually
+    - name: Upload Release Assets Manual Trigger
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag != '' }}
+      run:   gh release upload --clobber ${{ inputs.deploy_tag }} *.msi
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+    # Upload to the workflow if no tag is present in a manual triggered input
+    - uses: actions/upload-artifact@v4
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag == '' }}
       with:
-        path: 
-          ".\\PdfScribeInstall\\bin\\x64\\Release\\en-us\\*.msi"
+        name: my-artifact
+        path: '*.msi'
