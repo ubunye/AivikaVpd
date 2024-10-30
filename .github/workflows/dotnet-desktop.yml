@@ -34,16 +34,10 @@ jobs:
       run:  publishrelease.bat
       shell: cmd
       
-    - name: goto build folder
-      run: |
-        cd PdfScribeInstall/bin/x64/Release/en-us;
-        ren *.msi AivikaVpd.msi
-        dir;
-      
     - name: upload release assets
       if: ${{ github.event_name != 'workflow_dispatch' }}
       working-directory: ./PdfScribeInstall/bin/x64/Release/en-us
-      run:   gh release upload --clobber ${{ github.event.release.tag_name }} AivikaVpd.msi
+      run:   gh release upload --clobber ${{ github.event.release.tag_name }} *.msi
       env:
         GH_TOKEN: ${{ github.token }}
 
@@ -51,7 +45,7 @@ jobs:
     - name: Upload Release Assets Manual Trigger
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag != '' }}
       working-directory: ./PdfScribeInstall/bin/x64/Release/en-us
-      run:   gh release upload --clobber ${{ inputs.deploy_tag }} AivikaVpd.msi
+      run:   gh release upload --clobber ${{ inputs.deploy_tag }} *.msi
       env:
         GH_TOKEN: ${{ github.token }}
 
@@ -60,4 +54,4 @@ jobs:
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_tag == '' }}
       with:
         name: my-artifact
-        path: './PdfScribeInstall/bin/x64/Release/en-us/AivikaVpd.msi'
+        path: './PdfScribeInstall/bin/x64/Release/en-us/*.msi'
