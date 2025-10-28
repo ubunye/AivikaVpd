@@ -538,9 +538,7 @@ namespace PdfScribeInstallCustomAction
                                             String outputHandlerCommand,
                                             String outputHandlerArguments)
         {
-
             bool printerInstalled = false;
-
 
             Stack<undoInstall> undoInstallActions = new Stack<undoInstall>();
 
@@ -688,7 +686,6 @@ namespace PdfScribeInstallCustomAction
             this.logEventSource.Flush();
             return printerInstalled;
         }
-
 
         /// <summary>
         /// 
@@ -1071,7 +1068,6 @@ namespace PdfScribeInstallCustomAction
 
         }
 
-        
         private bool ConfigurePdfScribePort(String commandValue,
                                             String argumentsValue)
         {
@@ -1098,7 +1094,6 @@ namespace PdfScribeInstallCustomAction
                 portConfiguration.SetValue("PrintError", 0, RegistryValueKind.DWord);
                 registryChangesMade = true;
             }
-
             catch (UnauthorizedAccessException unauthorizedEx)
             {
                 logEventSource.TraceEvent(TraceEventType.Error,

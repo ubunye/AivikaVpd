@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Threading;
 
@@ -40,7 +41,7 @@ namespace PdfScribe
 
         private static string _fileName;
         private static string _printFolder;
-        private static Dispatcher _dispatcher;
+        private static Dispatcher _dispatcher; 
 
         [STAThread]
         static void Main(string[] args)
@@ -93,36 +94,58 @@ namespace PdfScribe
 
         private static void RunTask()
         {
+            var guid = Guid.NewGuid().ToString("B").ToUpper();
+            
             if (!Directory.Exists(Constants.PrintSpoolFolder))
             {
                 Directory.CreateDirectory(Constants.PrintSpoolFolder);
             }
-            var guid = Guid.NewGuid().ToString("B").ToUpper();
             _printFolder = Path.Combine(Constants.PrintSpoolFolder, guid);
 
             Directory.CreateDirectory(_printFolder);
 
             _fileName = Path.Combine(_printFolder, $"Aivika Capture Document {guid}.pdf");
             GetPrintedFile(_fileName);
-            PrintJobDone();
+            PrintJobDone(guid);
         }
 
-        private static void PrintJobDone()
+        private static void PrintJobDone(string guid)
         {
             try
             {
-                if (!File.Exists(PrinterDriver.ShellExe))
+                if(PrinterDriver.PrinterInsstalledOnlyKey != null)
                 {
-                    MessageBox.Show(Properties.Resources.ErrorUnableLocateAivika,
-                            ErrorDialogCaption,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error,
-                            MessageBoxDefaultButton.Button1,
-                            MessageBoxOptions.DefaultDesktopOnly);
-                }
-                else if (!string.IsNullOrWhiteSpace(_fileName))
-                {
-                    Process.Start(PrinterDriver.ShellExe, $"-u \"{_fileName}\" -d");
+                    if ((bool)!PrinterDriver.PrinterInsstalledOnlyKey)
+                    {
+                        if (!File.Exists(PrinterDriver.ShellExe))
+                        {
+                            MessageBox.Show(Properties.Resources.ErrorUnableLocateAivika,
+                                    ErrorDialogCaption,
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error,
+                                    MessageBoxDefaultButton.Button1,
+                                    MessageBoxOptions.DefaultDesktopOnly);
+                        }
+                        else if (!string.IsNullOrWhiteSpace(_fileName))
+                        {
+                            Process.Start(PrinterDriver.ShellExe, $"-u \"{_fileName}\" -d");
+                        }
+                    }
+                    else
+                    {
+                        var destFolder = PrinterDriver.ShellExe;
+                        if (!Directory.Exists(destFolder))
+                        {
+                            Directory.CreateDirectory(destFolder);
+                        }
+                        var saveFolder = Path.Combine(destFolder, guid);
+                        Directory.CreateDirectory(saveFolder);
+
+                        var destinationFile = Path.Combine(saveFolder, $"Aivika Capture Document {guid}.pdf");
+
+                        //Copy file (overwrite if exists)
+                        File.Copy(_fileName, destinationFile, overwrite: true);
+                    }
                 }
             }
             catch (Exception ex)
