@@ -11,6 +11,7 @@ namespace PdfScribe
         public const string SvProductName = "Aivika";
         public const string ClientProductName = "Aivika Capture";
         public const string AllUsersInstalledToken = "Installed for all users";
+        public const string PrinterInstalledOnlyToken = "Printer Installed Only";
         public const string PrinterUploadApplicationToken = "Printer Upload Application";
         public static readonly string ClientRegistryRootPath = $@"SOFTWARE\{SvProductName}";
         public static readonly string ClientRegistryKeyPath = $@"{ClientRegistryRootPath}\{ClientProductName}";
