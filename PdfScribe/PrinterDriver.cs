@@ -51,7 +51,7 @@ namespace PdfScribe
             }
         }
 
-        public static bool? PrinterInsstalledOnlyKey
+        public static bool? PrinterInstalledOnlyKey
         {
             get
             {

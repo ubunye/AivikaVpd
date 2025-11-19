@@ -94,12 +94,11 @@ namespace PdfScribe
 
         private static void RunTask()
         {
-            var guid = Guid.NewGuid().ToString("B").ToUpper();
-            
             if (!Directory.Exists(Constants.PrintSpoolFolder))
             {
                 Directory.CreateDirectory(Constants.PrintSpoolFolder);
             }
+            var guid = Guid.NewGuid().ToString("B").ToUpper();
             _printFolder = Path.Combine(Constants.PrintSpoolFolder, guid);
 
             Directory.CreateDirectory(_printFolder);
@@ -113,9 +112,9 @@ namespace PdfScribe
         {
             try
             {
-                if(PrinterDriver.PrinterInsstalledOnlyKey != null)
+                if(PrinterDriver.PrinterInstalledOnlyKey != null)
                 {
-                    if ((bool)!PrinterDriver.PrinterInsstalledOnlyKey)
+                    if ((bool)!PrinterDriver.PrinterInstalledOnlyKey)
                     {
                         if (!File.Exists(PrinterDriver.ShellExe))
                         {
