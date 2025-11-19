@@ -33,6 +33,8 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run:  publishrelease.bat
       shell: cmd
+      env:
+        CodeSignHash: ${{ secrets.CODESIGN_THUMBPRINT }}
       
     - name: upload release assets
       if: ${{ github.event_name != 'workflow_dispatch' }}
