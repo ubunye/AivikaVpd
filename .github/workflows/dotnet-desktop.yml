@@ -34,7 +34,7 @@ jobs:
       run:  publishrelease.bat
       shell: cmd
       env:
-        CodeSignHash: ${{ secrets.CODESIGN_THUMBPRINT }}
+        CodeSignHash: ${{ secrets.AZURE_SIGNING_CLIENT_SECRET }}
       
     - name: upload release assets
       if: ${{ github.event_name != 'workflow_dispatch' }}
