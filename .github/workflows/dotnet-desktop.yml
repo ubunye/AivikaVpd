@@ -32,7 +32,7 @@ jobs:
     - name: build the imagefile
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run:  publishrelease.bat
-      shell: cmd      
+      shell: cmd
       
     - name: upload release assets
       if: ${{ github.event_name != 'workflow_dispatch' }}
