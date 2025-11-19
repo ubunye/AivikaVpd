@@ -1,0 +1,13 @@
+<Project>
+	<PropertyGroup>
+		<Company>Ubunye Holdings Pty. Ltd.</Company>
+		<Copyright>Copyright © 2014-2025</Copyright>
+		<AssemblyTrademark></AssemblyTrademark>
+		<AssemblyCulture></AssemblyCulture>
+		<Version>1.0.1</Version>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<ProductVersion>$(Version)</ProductVersion>
+		<ProductName>Aivika Virtual Printer</ProductName>
+	</PropertyGroup>
+</Project>
